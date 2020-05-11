@@ -1,0 +1,186 @@
+#!/usr/bin/env python
+
+"""
+Web server for develpment purposes, light weight with some features.
+
+    Mark Veltzer
+
+TODO:
+- call this project dws.
+- fix the logging of the web server to go to .dws_logs
+- fix it so the cwd of the web server will not change to /.
+- fix it so if there is a problem with the web server I will print the error
+    to the screen.
+- self.path has parameters in it. strip them.
+- /favicon.ico return 500 and should return 404.
+- make the search path much more elaborate so that I can easy searching for files inside
+libraries.
+- make the transport of requests be UTF-8 so that the browser will shut up about
+the fact that all my documents do not have endoing in them.
+"""
+
+import cgi
+import os
+import threading
+import time
+import http.server
+import mimetypes
+import daemon
+
+class StoppableHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
+    """http request handler with QUIT stopping the server"""
+
+    def do_QUIT(self):
+        """send 200 OK response, and set server.stop to True"""
+        self.send_response(200)
+        self.end_headers()
+        self.server.stop = True
+
+class MyHandler(StoppableHttpRequestHandler):
+    def __init__(self, *args):
+        # order is important here and base class is fucked up
+        self.encoding = "utf8"
+        self.search_path = ":".join([
+                ".",
+                "/usr/share/javascript",
+                "/usr/share/javascript/jquery",
+        ])
+        super(MyHandler, self).__init__(*args)
+
+    def handle_static(self, resolved, mimetype):
+        # note that this potentially makes every file on your computer
+        # readable by the internet. A real web server also checks that
+        # the file that it is serving is inside into service 'realm'.
+        with open(resolved, "rb") as f:
+            self.send_response(http.HTTPStatus.OK)
+            if mimetype[0]:
+                self.send_header('Content-type', mimetype[0])
+            if mimetype[1]:
+                self.send_header('Content-Encoding', mimetype[1])
+            self.end_headers()
+            self.wfile.write(f.read())
+            # self.write("hello")
+            f.close()
+
+    def resolve(self, name):
+        for folder in self.search_path.split(':'):
+            to_consider = os.path.join(folder, name)
+            if os.path.exists(to_consider):
+                return to_consider
+        return None
+
+    def write(self, message):
+        self.wfile.write(bytes(message, self.encoding))
+
+    def handle_esp(self):
+        self.send_response(http.HTTPStatus.OK)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+        self.write('time is the ' + str(time) + '<br/>')
+        self.write('today is the ' + str(time.localtime()[7]) + '<br/>')
+        self.write('day in the year ' + str(time.localtime()[0]) + '<br/>')
+
+    def to_path(self):
+        # add a '.' to path to make it a local file path
+        # /->./
+        # /index.html -> ./index.html
+        r = self.path[1:]
+        if r=='':
+            r='.'
+        return r
+
+    def handle_dir(self, real_path):
+        self.send_response(http.HTTPStatus.OK)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+        self.write('<html><body>')
+        for x in os.listdir(real_path):
+            ref = os.path.join('http://localhost:8001', self.path, x)
+            message = '<a href=\'' + ref + '\'>' + x + '</a><br/>'
+            self.write(message)
+        self.write('</body></html>')
+
+    def get(self):
+        # our dynamic content
+        if self.path.endswith('.esp'):
+            self.handle_esp()
+            return
+
+        # handle real files
+        real_path = self.to_path()
+        resolved = self.resolve(real_path)
+        if resolved:
+            if os.path.isfile(resolved):
+                mimetype = mimetypes.guess_type(resolved)
+                if mimetype[0]:
+                    self.handle_static(resolved, mimetype)
+                    return
+                self.send_error(
+                    500, 'Unrecognized file type: {0}'.format(self.path))
+                return
+            if os.path.isdir(resolved):
+                self.handle_dir(real_path)
+                return
+
+        # any other thing
+        self.send_error(http.HTTPStatus.NOT_FOUND)
+
+    def do_GET(self):
+        # this is the method called by the framework... any lower level error
+        # should send internal error to the client...
+        try:
+            self.get()
+        except Exception as e:
+            self.send_error(http.HTTPStatus.INTERNAL_SERVER_ERROR)
+
+    def do_POST(self):
+        try:
+            ctype, pdict = cgi.parse_header(
+                self.headers.getheader('content-type'))
+            if ctype == 'multipart/form-data':
+                query = cgi.parse_multipart(self.rfile, pdict)
+            else:
+                raise ValueError("not a form")
+            self.send_response(301)
+            self.end_headers()
+            upfilecontent = query.get('upfile')
+            # print('filecontent', upfilecontent[0])
+            self.write('<html><body>POST OK.<br/><br/>')
+            self.write('<b>file content is:</b><br/><code>')
+            self.write(upfilecontent[0])
+            self.write('</code></body></html>')
+        except Exception as e:
+            self.send_error(http.HTTPStatus.INTERNAL_SERVER_ERROR)
+    def log_message(self, format, *args):
+        """
+        override the log method and call the parent
+        """
+        return super().log_message(format, *args)
+
+
+class StoppableHttpServer(http.server.HTTPServer):
+    """http server that reacts to self.stop flag"""
+
+    def serve_forever(self):
+        """Handle one request at a time until stopped."""
+        self.stop = False
+        while not self.stop:
+            self.handle_request()
+
+def main():
+    host = 'localhost'
+    port = 8001
+    url = 'http://{}:{}'.format(host, port)
+    try:
+        server = StoppableHttpServer((host, port), MyHandler)
+        print('contact me at [{}]'.format(url))
+        server.serve_forever()
+    except KeyboardInterrupt:
+        # print()
+        # print()
+        print('CTRL+C received, shutting down server')
+        server.server_close()
+        # server.socket.close()
+
+with daemon.DaemonContext():
+    main()
