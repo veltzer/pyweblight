@@ -10,6 +10,7 @@ setup_requires = [
 ]
 
 run_requires = [
+    'python-daemon',  # for daemon related work
     'pytconf',  # for command line parsing
     'pylogconf',  # for logging configuration
 ]

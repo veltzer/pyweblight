@@ -10,6 +10,7 @@ setuptools.setup(
     version='0.0.1',
     packages=[
         'pyweblight',
+        'pyweblight.endpoints',
     ],
     # from here all is optional
     description='pyweblight is a small configurable web server for developers',
@@ -34,6 +35,7 @@ setuptools.setup(
         'python3',
     ],
     install_requires=[
+        'python-daemon',
         'pytconf',
         'pylogconf',
     ],

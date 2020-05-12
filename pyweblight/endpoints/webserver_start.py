@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Web server for develpment purposes, light weight with some features.
+Web server for development purposes, light weight with some features.
 
     Mark Veltzer
 
@@ -16,16 +16,16 @@ TODO:
 - make the search path much more elaborate so that I can easy searching for files inside
 libraries.
 - make the transport of requests be UTF-8 so that the browser will shut up about
-the fact that all my documents do not have endoing in them.
+the fact that all my documents do not have ending in them.
 """
 
 import cgi
 import os
-import threading
 import time
 import http.server
 import mimetypes
 import daemon
+
 
 class StoppableHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
     """http request handler with QUIT stopping the server"""
@@ -34,7 +34,8 @@ class StoppableHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
         """send 200 OK response, and set server.stop to True"""
         self.send_response(200)
         self.end_headers()
-        self.server.stop = True
+        self.server.set_stop()
+
 
 class MyHandler(StoppableHttpRequestHandler):
     def __init__(self, *args):
@@ -59,7 +60,6 @@ class MyHandler(StoppableHttpRequestHandler):
                 self.send_header('Content-Encoding', mimetype[1])
             self.end_headers()
             self.wfile.write(f.read())
-            # self.write("hello")
             f.close()
 
     def resolve(self, name):
@@ -85,8 +85,8 @@ class MyHandler(StoppableHttpRequestHandler):
         # /->./
         # /index.html -> ./index.html
         r = self.path[1:]
-        if r=='':
-            r='.'
+        if r == '':
+            r = '.'
         return r
 
     def handle_dir(self, real_path):
@@ -135,27 +135,27 @@ class MyHandler(StoppableHttpRequestHandler):
 
     def do_POST(self):
         try:
-            ctype, pdict = cgi.parse_header(
+            content_type, parameter_dict = cgi.parse_header(
                 self.headers.getheader('content-type'))
-            if ctype == 'multipart/form-data':
-                query = cgi.parse_multipart(self.rfile, pdict)
+            if content_type == 'multipart/form-data':
+                query = cgi.parse_multipart(self.rfile, parameter_dict)
             else:
                 raise ValueError("not a form")
             self.send_response(301)
             self.end_headers()
-            upfilecontent = query.get('upfile')
-            # print('filecontent', upfilecontent[0])
+            upfile_content = query.get('upfile')
             self.write('<html><body>POST OK.<br/><br/>')
             self.write('<b>file content is:</b><br/><code>')
-            self.write(upfilecontent[0])
+            self.write(upfile_content[0])
             self.write('</code></body></html>')
         except Exception as e:
             self.send_error(http.HTTPStatus.INTERNAL_SERVER_ERROR)
-    def log_message(self, format, *args):
+
+    def log_message(self, fmt, *args):
         """
         override the log method and call the parent
         """
-        return super().log_message(format, *args)
+        return super().log_message(fmt, *args)
 
 
 class StoppableHttpServer(http.server.HTTPServer):
@@ -167,20 +167,19 @@ class StoppableHttpServer(http.server.HTTPServer):
         while not self.stop:
             self.handle_request()
 
+
 def main():
     host = 'localhost'
     port = 8001
     url = 'http://{}:{}'.format(host, port)
+    server = StoppableHttpServer((host, port), MyHandler)
+    print('contact me at [{}]'.format(url))
     try:
-        server = StoppableHttpServer((host, port), MyHandler)
-        print('contact me at [{}]'.format(url))
         server.serve_forever()
     except KeyboardInterrupt:
-        # print()
-        # print()
         print('CTRL+C received, shutting down server')
         server.server_close()
-        # server.socket.close()
+
 
 with daemon.DaemonContext():
     main()
