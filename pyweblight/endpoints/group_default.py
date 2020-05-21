@@ -4,9 +4,8 @@ The default group of operations that pyweblight has
 
 from pytconf.config import register_endpoint, register_function_group
 
-from pyweblight.configs import ConfigSymlinkInstall, ConfigRemoveFolders
-
 import pyweblight
+import pyweblight.version
 
 GROUP_NAME_DEFAULT = "default"
 GROUP_DESCRIPTION_DEFAULT = "all pyweblight commands"
@@ -31,7 +30,7 @@ def version() -> None:
     """
     Print version
     """
-    print(pyweblight.__version__)
+    print(pyweblight.version.VERSION_STR)
 
 
 @register_endpoint(
