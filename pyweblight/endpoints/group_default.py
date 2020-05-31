@@ -22,8 +22,6 @@ def register_group_default():
 
 
 @register_endpoint(
-    configs=[],
-    suggest_configs=[],
     group=GROUP_NAME_DEFAULT,
 )
 def version() -> None:
@@ -34,9 +32,6 @@ def version() -> None:
 
 
 @register_endpoint(
-    configs=[
-    ],
-    suggest_configs=[],
     group=GROUP_NAME_DEFAULT,
 )
 def start() -> None:
@@ -46,9 +41,6 @@ def start() -> None:
 
 
 @register_endpoint(
-    configs=[
-    ],
-    suggest_configs=[],
     group=GROUP_NAME_DEFAULT,
 )
 def stop() -> None:
