@@ -3,7 +3,7 @@ import setuptools
 setuptools.setup(
     # the first three fields are a must according to the documentation
     name='pyweblight',
-    version='0.0.1',
+    version='0.0.2',
     packages=[
         'pyweblight',
         'pyweblight.endpoints',
