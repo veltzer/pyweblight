@@ -2,19 +2,20 @@ import setuptools
 
 setuptools.setup(
     # the first three fields are a must according to the documentation
-    name='pyweblight',
-    version='0.0.2',
+    name="pyweblight",
+    version="0.0.2",
     packages=[
         'pyweblight',
         'pyweblight.endpoints',
     ],
     # from here all is optional
-    description='pyweblight is a small configurable web server for developers',
-    long_description='pyweblight is a small configurable web server for developers',
-    author='Mark Veltzer',
-    author_email='mark.veltzer@gmail.com',
-    maintainer='Mark Veltzer',
-    maintainer_email='mark.veltzer@gmail.com',
+    description="pyweblight is a small configurable web server for developers",
+    long_description="pyweblight is a small configurable web server for developers",
+    long_description_content_type="text/x-rst",
+    author="Mark Veltzer",
+    author_email="mark.veltzer@gmail.com",
+    maintainer="Mark Veltzer",
+    maintainer_email="mark.veltzer@gmail.com",
     keywords=[
         'http',
         'https',
@@ -24,9 +25,9 @@ setuptools.setup(
         'server',
         'web',
     ],
-    url='https://veltzer.github.io/pyweblight',
-    download_url='https://github.com/veltzer/pyweblight',
-    license='MIT',
+    url="https://veltzer.github.io/pyweblight",
+    download_url="https://github.com/veltzer/pyweblight",
+    license="MIT",
     platforms=[
         'python3',
     ],
@@ -46,8 +47,8 @@ setuptools.setup(
     ],
     data_files=[
     ],
-    entry_points={'console_scripts': [
+    entry_points={"console_scripts": [
         'pyweblight=pyweblight.endpoints.main:main',
     ]},
-    python_requires='>=3.5',
+    python_requires=">=3.5",
 )
