@@ -44,6 +44,7 @@ setuptools.setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Topic :: Utilities',
+        'License :: OSI Approved :: MIT License',
     ],
     data_files=[
     ],

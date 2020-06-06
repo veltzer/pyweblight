@@ -38,6 +38,7 @@ project_classifiers = [
     pyclassifiers.values.OperatingSystem__OSIndependent,
     pyclassifiers.values.ProgrammingLanguage__Python,
     pyclassifiers.values.Topic__Utilities,
+    pyclassifiers.values.License__OSIApproved__MITLicense,
 ]
 
 project_data_files = []
