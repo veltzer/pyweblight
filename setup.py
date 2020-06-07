@@ -33,7 +33,7 @@ setuptools.setup(
     ],
     url="https://veltzer.github.io/pyweblight",
     download_url="https://github.com/veltzer/pyweblight",
-    # license="MIT",
+    license="MIT",
     platforms=[
         'python3',
     ],
