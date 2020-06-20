@@ -1,5 +1,4 @@
 
-
 # *pyweblight* project by Mark Veltzer
 
 ![PyPI - Status](https://img.shields.io/pypi/status/pyweblight)
@@ -17,7 +16,7 @@
 ![Downloads](https://pepy.tech/badge/pyweblight/month)
 ![Downloads](https://pepy.tech/badge/pyweblight/week)
 
+
 pyweblight is a small configurable web server for developers
 
-project website: https://veltzer.github.io/pyweblight
-
+project website: <https://veltzer.github.io/pyweblight>
