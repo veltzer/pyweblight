@@ -3,7 +3,7 @@ All configurations for pyweblight
 """
 
 
-from pytconf.config import Config, ParamCreator
+from pytconf import Config, ParamCreator
 
 
 class ConfigStart(Config):
