@@ -17,8 +17,11 @@
 ![Downloads](https://pepy.tech/badge/pyweblight/week)
 
 
+
 pyweblight is a small configurable web server for developers
 
 project website: <https://veltzer.github.io/pyweblight>
+
+chat with me at [![gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/veltzer/mark.veltzer)
 
 
