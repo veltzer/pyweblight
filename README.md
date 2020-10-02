@@ -16,6 +16,8 @@
 ![Downloads](https://pepy.tech/badge/pyweblight/month)
 ![Downloads](https://pepy.tech/badge/pyweblight/week)
 
+[![Known Vulnerabilities](https://snyk.io/test/github/veltzer/pyweblight/badge.svg?targetFile=requirements.txt)](https://snyk.io/test/github/veltzer/pyweblight?targetFile=requirements.txt)
+
 
 
 pyweblight is a small configurable web server for developers
