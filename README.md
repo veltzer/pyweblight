@@ -19,10 +19,13 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/veltzer/pyweblight/badge.svg?targetFile=requirements.txt)](https://snyk.io/test/github/veltzer/pyweblight?targetFile=requirements.txt)
 
 
+Actions
+
+![build](https://github.com/veltzer/pyweblight/workflows/build/badge.svg)
 
 pyweblight is a small configurable web server for developers
 
-project website: <https://veltzer.github.io/pyweblight>
+project website: https://veltzer.github.io/pyweblight
 
 chat with me at [![gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/veltzer/mark.veltzer)
 
