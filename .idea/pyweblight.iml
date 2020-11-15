@@ -13,6 +13,8 @@
       <excludeFolder url="file://$MODULE_DIR$/wheel" />
       <excludeFolder url="file://$MODULE_DIR$/pyweblight.egg-info" />
     </content>
+    <orderEntry type="jdk" jdkName="Python 3.8 (pyweblight) (2)" jdkType="Python SDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TemplatesService">
     <option name="templateFileTypes">

@@ -42,11 +42,11 @@ class MyHandler(StoppableHttpRequestHandler):
         # order is important here and base class is fucked up
         self.encoding = "utf8"
         self.search_path = ":".join([
-                ".",
-                "/usr/share/javascript",
-                "/usr/share/javascript/jquery",
+            ".",
+            "/usr/share/javascript",
+            "/usr/share/javascript/jquery",
         ])
-        super(MyHandler, self).__init__(*args)
+        super().__init__(*args)
 
     def handle_static(self, resolved, mimetype):
         # note that this potentially makes every file on your computer
@@ -130,7 +130,7 @@ class MyHandler(StoppableHttpRequestHandler):
         # should send internal error to the client...
         try:
             self.get()
-        except Exception as e:
+        except Exception as _e:
             self.send_error(http.HTTPStatus.INTERNAL_SERVER_ERROR)
 
     def do_POST(self):
@@ -143,25 +143,29 @@ class MyHandler(StoppableHttpRequestHandler):
                 raise ValueError("not a form")
             self.send_response(301)
             self.end_headers()
-            upfile_content = query.get('upfile')
+            upload_content = query.get('upload')
             self.write('<html><body>POST OK.<br/><br/>')
             self.write('<b>file content is:</b><br/><code>')
-            self.write(upfile_content[0])
+            self.write(upload_content[0])
             self.write('</code></body></html>')
-        except Exception as e:
+        except Exception as _e:
             self.send_error(http.HTTPStatus.INTERNAL_SERVER_ERROR)
 
-    def log_message(self, fmt, *args):
+    def log_message(self, format, *args):
         """
         override the log method and call the parent
         """
-        return super().log_message(fmt, *args)
+        # return super().log_message(format, *args, **kwargs)
 
 
 class StoppableHttpServer(http.server.HTTPServer):
     """http server that reacts to self.stop flag"""
 
-    def serve_forever(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.stop = False
+
+    def serve_forever(self, poll_interval=0.5):
         """Handle one request at a time until stopped."""
         self.stop = False
         while not self.stop:
