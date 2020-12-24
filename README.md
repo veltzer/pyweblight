@@ -12,11 +12,6 @@
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/pyweblight)
 
 ![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
-![Downloads](https://pepy.tech/badge/pyweblight)
-![Downloads](https://pepy.tech/badge/pyweblight/month)
-![Downloads](https://pepy.tech/badge/pyweblight/week)
-
-[![Known Vulnerabilities](https://snyk.io/test/github/veltzer/pyweblight/badge.svg?targetFile=requirements.txt)](https://snyk.io/test/github/veltzer/pyweblight?targetFile=requirements.txt)
 
 
 Actions
