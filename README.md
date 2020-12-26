@@ -13,9 +13,6 @@
 
 ![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
 
-
-Actions
-
 ![build](https://github.com/veltzer/pyweblight/workflows/build/badge.svg)
 
 pyweblight is a small configurable web server for developers
