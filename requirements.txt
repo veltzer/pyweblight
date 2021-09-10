@@ -8,7 +8,10 @@ pyclassifiers
 pypitools
 pydmt
 Sphinx
+pymakehelper
 # test requirements
 pylint
 pytest
+pytest-cov
 pyflakes
+flake8

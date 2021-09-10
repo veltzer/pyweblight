@@ -128,9 +128,10 @@ class MyHandler(StoppableHttpRequestHandler):
     def do_GET(self):
         # this is the method called by the framework... any lower level error
         # should send internal error to the client...
+        # pylint: disable=broad-except
         try:
             self.get()
-        except Exception as _e:
+        except Exception:
             self.send_error(http.HTTPStatus.INTERNAL_SERVER_ERROR)
 
     def do_POST(self):
@@ -148,7 +149,8 @@ class MyHandler(StoppableHttpRequestHandler):
             self.write('<b>file content is:</b><br/><code>')
             self.write(upload_content[0])
             self.write('</code></body></html>')
-        except Exception as _e:
+        # pylint: disable=broad-except
+        except Exception:
             self.send_error(http.HTTPStatus.INTERNAL_SERVER_ERROR)
 
     # pylint: disable=redefined-builtin
