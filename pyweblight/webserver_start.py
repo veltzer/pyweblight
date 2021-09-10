@@ -116,7 +116,7 @@ class MyHandler(StoppableHttpRequestHandler):
                     self.handle_static(resolved, mimetype)
                     return
                 self.send_error(
-                    500, 'Unrecognized file type: {0}'.format(self.path))
+                    500, f"Unrecognized file type: {self.path}")
                 return
             if os.path.isdir(resolved):
                 self.handle_dir(real_path)
@@ -151,11 +151,12 @@ class MyHandler(StoppableHttpRequestHandler):
         except Exception as _e:
             self.send_error(http.HTTPStatus.INTERNAL_SERVER_ERROR)
 
+    # pylint: disable=redefined-builtin
     def log_message(self, format, *args):
         """
         override the log method and call the parent
         """
-        # return super().log_message(format, *args, **kwargs)
+        # return super().log_message(fmt, *args, **kwargs)
 
 
 class StoppableHttpServer(http.server.HTTPServer):
