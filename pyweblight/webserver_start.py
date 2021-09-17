@@ -178,9 +178,9 @@ class StoppableHttpServer(http.server.HTTPServer):
 def main():
     host = 'localhost'
     port = 8001
-    url = 'http://{}:{}'.format(host, port)
+    url = f"http://{host}:{port}"
     server = StoppableHttpServer((host, port), MyHandler)
-    print('contact me at [{}]'.format(url))
+    print(f"contact me at [{url}]")
     try:
         server.serve_forever()
     except KeyboardInterrupt:

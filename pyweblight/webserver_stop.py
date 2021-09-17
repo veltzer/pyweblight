@@ -3,6 +3,6 @@
 import http.client
 
 port = 8001
-conn = http.client.HTTPConnection("localhost:%d" % port)
+conn = http.client.HTTPConnection(f"localhost:{port}")
 conn.request("QUIT", "/")
 print(conn.getresponse())
