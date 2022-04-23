@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 *.stamp
 /inspections
+/wheel
 
 /.myenv.pip.errors
 
