@@ -2,6 +2,10 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.stamp
+
+/.myenv.pip.errors
+
 /.pydmt/
 
 # C extensions
