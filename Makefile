@@ -50,6 +50,7 @@ endif
 
 .PHONY: all
 all: $(ALL)
+	@true
 
 all_tests.stamp: $(ALL_PYTHON)
 	$(Q)pymakehelper only_print_on_error $(PYTHON) -m pytest tests
