@@ -36,13 +36,6 @@ setuptools.setup(
     platforms=[
         'python3',
     ],
-    install_requires=[
-        'python-daemon',
-        'pytconf',
-        'pylogconf',
-    ],
-    extras_require={
-    },
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',
