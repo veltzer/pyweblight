@@ -6,7 +6,7 @@ console_scripts = [
     "pyweblight=pyweblight.main:main",
 ]
 
-run_requires = [
+install_requires = [
     "python-daemon",
     "pytconf",
     "pylogconf",
