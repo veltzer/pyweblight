@@ -6,10 +6,12 @@ console_scripts = [
     "pyweblight=pyweblight.main:main",
 ]
 dev_requires = [
-    "pyclassifiers",
     "pypitools",
-    "pydmt",
-    "Sphinx",
+]
+config_requires= [
+    "pyclassifiers",
+]
+make_requires = [
     "pymakehelper",
 ]
 install_requires = [
