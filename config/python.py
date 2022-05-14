@@ -8,7 +8,7 @@ console_scripts = [
 dev_requires = [
     "pypitools",
 ]
-config_requires= [
+config_requires = [
     "pyclassifiers",
 ]
 make_requires = [
