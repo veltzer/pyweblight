@@ -8,7 +8,9 @@ config_requires = [
     "pyclassifiers",
 ]
 make_requires = [
+    "pyclassifiers",
     "pymakehelper",
+    "pydmt",
 ]
 install_requires = [
     "python-daemon",
