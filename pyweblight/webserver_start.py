@@ -19,6 +19,7 @@ libraries.
 the fact that all my documents do not have ending in them.
 """
 
+# pylint: disable=deprecated-module
 import cgi
 import os
 import time
