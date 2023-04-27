@@ -1,4 +1,4 @@
-description_short = "pyweblight is a small configurable web server for developers"
+description_short = "Pyweblight is a small configurable web server for developers"
 keywords = [
     "http",
     "https",

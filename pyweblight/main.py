@@ -6,7 +6,7 @@ main entry point to the program
 import pylogconf.core
 from pytconf import register_main, config_arg_parse_and_launch, register_endpoint
 
-from pyweblight.static import APP_NAME, VERSION_STR
+from pyweblight.static import APP_NAME, VERSION_STRS, DESCRIPTION
 
 
 @register_endpoint(
@@ -24,7 +24,7 @@ def stop() -> None:
 
 
 @register_main(
-    main_description="pyweblight is a lightweight web server in python",
+    main_description=DESCRIPTION,
     app_name=APP_NAME,
     version=VERSION_STR,
 )
