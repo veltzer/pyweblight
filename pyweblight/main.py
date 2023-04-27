@@ -6,7 +6,7 @@ main entry point to the program
 import pylogconf.core
 from pytconf import register_main, config_arg_parse_and_launch, register_endpoint
 
-from pyweblight.static import APP_NAME, VERSION_STRS, DESCRIPTION
+from pyweblight.static import APP_NAME, VERSION_STR, DESCRIPTION
 
 
 @register_endpoint(

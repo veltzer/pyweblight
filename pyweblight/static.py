@@ -1,5 +1,5 @@
 """ version which can be consumed from within the module """
-VERSION_STR = "0.0.4"
-DESCRIPTION = "pyweblight is a small configurable web server for developers"
+VERSION_STR = "0.0.5"
+DESCRIPTION = "Pyweblight is a small configurable web server for developers"
 APP_NAME = "pyweblight"
 LOGGER_NAME = "pyweblight"

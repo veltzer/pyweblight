@@ -9,12 +9,12 @@ def get_readme():
 setuptools.setup(
     # the first three fields are a must according to the documentation
     name="pyweblight",
-    version="0.0.4",
+    version="0.0.5",
     packages=[
         "pyweblight",
     ],
     # from here all is optional
-    description="pyweblight is a small configurable web server for developers",
+    description="Pyweblight is a small configurable web server for developers",
     long_description=get_readme(),
     long_description_content_type="text/x-rst",
     author="Mark Veltzer",

@@ -1,12 +1,12 @@
 # *pyweblight* project by Mark Veltzer
 
-description: pyweblight is a small configurable web server for developers
+description: Pyweblight is a small configurable web server for developers
 
 project website: https://veltzer.github.io/pyweblight
 
 author: Mark Veltzer
 
-version: 0.0.4
+version: 0.0.5
 
 ![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
 
