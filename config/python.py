@@ -1,23 +1,26 @@
-console_scripts = [
+from typing import List
+
+
+console_scripts: List[str] = [
     "pyweblight=pyweblight.main:main",
 ]
-dev_requires = [
+config_requires: List[str] = [
+    "pyclassifiers",
+]
+dev_requires: List[str] = [
     "pypitools",
 ]
-config_requires = [
-    "pyclassifiers",
-]
-make_requires = [
-    "pyclassifiers",
-    "pymakehelper",
-    "pydmt",
-]
-install_requires = [
+install_requires: List[str] = [
     "python-daemon",
     "pytconf",
     "pylogconf",
 ]
-test_requires = [
+make_requires: List[str] = [
+    "pyclassifiers",
+    "pymakehelper",
+    "pydmt",
+]
+test_requires: List[str] = [
     "pylint",
     "pytest",
     "pytest-cov",
@@ -25,3 +28,6 @@ test_requires = [
     "flake8",
     "mypy",
 ]
+from typing import List
+
+
