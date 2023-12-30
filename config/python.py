@@ -28,6 +28,4 @@ test_requires: List[str] = [
     "flake8",
     "mypy",
 ]
-from typing import List
-
-
+requires = config_requires + install_requires + make_requires + test_requires
