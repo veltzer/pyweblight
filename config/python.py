@@ -4,11 +4,11 @@ from typing import List
 console_scripts: List[str] = [
     "pyweblight=pyweblight.main:main",
 ]
-config_requires: List[str] = [
-    "pyclassifiers",
-]
 dev_requires: List[str] = [
     "pypitools",
+]
+config_requires: List[str] = [
+    "pyclassifiers",
 ]
 install_requires: List[str] = [
     "python-daemon",
@@ -16,7 +16,6 @@ install_requires: List[str] = [
     "pylogconf",
 ]
 make_requires: List[str] = [
-    "pyclassifiers",
     "pymakehelper",
     "pydmt",
 ]
