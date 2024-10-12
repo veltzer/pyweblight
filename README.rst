@@ -12,6 +12,6 @@ project website: https://veltzer.github.io/pyweblight
 
 author: Mark Veltzer
 
-version: 0.0.5
+version: 0.0.6
 
 	Mark Veltzer <mark.veltzer@gmail.com>, Copyright © 2020, 2021, 2022, 2023, 2024
