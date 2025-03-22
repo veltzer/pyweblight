@@ -1,3 +1,4 @@
+""" project definitions """
 name = "pyweblight"
 description_short = "Pyweblight is a small configurable web server for developers"
 keywords = [
