@@ -1,4 +1,8 @@
-#!/usr/bin/python3
+#!/usr/bin/env python
+
+"""
+Stop the webserver
+"""
 
 import http.client
 
