@@ -1,13 +1,11 @@
 # THIS IS AN AUTO-GENERATED FILE. DO NOT EDIT!
+mypy
 pyclassifiers
-python-daemon
-pytconf
-pylogconf
-pymakehelper
 pydmt
 pylint
+pylogconf
+pymakehelper
+pytconf
 pytest
 pytest-cov
-pyflakes
-flake8
-mypy
+python-daemon
