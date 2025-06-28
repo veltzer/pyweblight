@@ -7,5 +7,5 @@ pylogconf
 pymakehelper
 pytconf
 pytest
-pytest-cov
 python-daemon
+ruff
