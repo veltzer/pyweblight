@@ -6,6 +6,7 @@ install_requires: list[str] = [
     "python-daemon",
     "pytconf",
     "pylogconf",
+    "multipart",
 ]
 build_requires: list[str] = config.shared.PBUILD
 test_requires: list[str] = config.shared.PTEST

@@ -19,12 +19,11 @@ libraries.
 the fact that all my documents do not have ending in them.
 """
 
-# pylint: disable=deprecated-module
-import cgi
 import os
 import time
 import http.server
 import mimetypes
+from multipart import parse_form_data
 import daemon
 
 
@@ -137,18 +136,19 @@ class MyHandler(StoppableHttpRequestHandler):
 
     def do_POST(self):
         try:
-            content_type, parameter_dict = cgi.parse_header(
-                self.headers.getheader('content-type'))
-            if content_type == 'multipart/form-data':
-                query = cgi.parse_multipart(self.rfile, parameter_dict)
-            else:
-                raise ValueError("not a form")
+            content_length = int(self.headers.get('content-length', 0))
+            environ = {
+                'REQUEST_METHOD': 'POST',
+                'CONTENT_TYPE': self.headers.get('content-type'),
+                'CONTENT_LENGTH': str(content_length),
+            }
+            _form, files = parse_form_data(environ, self.rfile)
+            upload_content = files['upload'].file.read()
             self.send_response(301)
             self.end_headers()
-            upload_content = query.get('upload')
             self.write('<html><body>POST OK.<br/><br/>')
             self.write('<b>file content is:</b><br/><code>')
-            self.write(upload_content[0])
+            self.write(upload_content.decode('utf-8'))
             self.write('</code></body></html>')
         # pylint: disable=broad-except
         except Exception:

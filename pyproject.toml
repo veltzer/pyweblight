@@ -39,6 +39,7 @@ dependencies = [
     "python-daemon",
     "pytconf",
     "pylogconf",
+    "multipart",
 ]
 
 [project.urls]
