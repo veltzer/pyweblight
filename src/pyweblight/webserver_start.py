@@ -51,19 +51,19 @@ class MyHandler(StoppableHttpRequestHandler):
     def handle_static(self, resolved, mimetype):
         # note that this potentially makes every file on your computer
         # readable by the internet. A real web server also checks that
-        # the file that it is serving is inside into service 'realm'.
+        # the file that it is serving is inside into service "realm".
         with open(resolved, "rb") as f:
             self.send_response(http.HTTPStatus.OK)
             if mimetype[0]:
-                self.send_header('Content-type', mimetype[0])
+                self.send_header("Content-type", mimetype[0])
             if mimetype[1]:
-                self.send_header('Content-Encoding', mimetype[1])
+                self.send_header("Content-Encoding", mimetype[1])
             self.end_headers()
             self.wfile.write(f.read())
             f.close()
 
     def resolve(self, name):
-        for folder in self.search_path.split(':'):
+        for folder in self.search_path.split(":"):
             to_consider = os.path.join(folder, name)
             if os.path.exists(to_consider):
                 return to_consider
@@ -74,35 +74,35 @@ class MyHandler(StoppableHttpRequestHandler):
 
     def handle_esp(self):
         self.send_response(http.HTTPStatus.OK)
-        self.send_header('Content-type', 'text/html')
+        self.send_header("Content-type", "text/html")
         self.end_headers()
-        self.write('time is the ' + str(time) + '<br/>')
-        self.write('today is the ' + str(time.localtime()[7]) + '<br/>')
-        self.write('day in the year ' + str(time.localtime()[0]) + '<br/>')
+        self.write("time is the " + str(time) + "<br/>")
+        self.write("today is the " + str(time.localtime()[7]) + "<br/>")
+        self.write("day in the year " + str(time.localtime()[0]) + "<br/>")
 
     def to_path(self):
-        # add a '.' to path to make it a local file path
+        # add a "." to path to make it a local file path
         # /->./
         # /index.html -> ./index.html
         r = self.path[1:]
-        if r == '':
-            r = '.'
+        if r == "":
+            r = "."
         return r
 
     def handle_dir(self, real_path):
         self.send_response(http.HTTPStatus.OK)
-        self.send_header('Content-type', 'text/html')
+        self.send_header("Content-type", "text/html")
         self.end_headers()
-        self.write('<html><body>')
+        self.write("<html><body>")
         for x in os.listdir(real_path):
-            ref = os.path.join('http://localhost:8001', self.path, x)
-            message = '<a href=\'' + ref + '\'>' + x + '</a><br/>'
+            ref = os.path.join("http://localhost:8001", self.path, x)
+            message = "<a href=\"" + ref + "\">" + x + "</a><br/>"
             self.write(message)
-        self.write('</body></html>')
+        self.write("</body></html>")
 
     def get(self):
         # our dynamic content
-        if self.path.endswith('.esp'):
+        if self.path.endswith(".esp"):
             self.handle_esp()
             return
 
@@ -136,20 +136,20 @@ class MyHandler(StoppableHttpRequestHandler):
 
     def do_POST(self):
         try:
-            content_length = int(self.headers.get('content-length', 0))
+            content_length = int(self.headers.get("content-length", 0))
             environ = {
-                'REQUEST_METHOD': 'POST',
-                'CONTENT_TYPE': self.headers.get('content-type'),
-                'CONTENT_LENGTH': str(content_length),
+                "REQUEST_METHOD": "POST",
+                "CONTENT_TYPE": self.headers.get("content-type"),
+                "CONTENT_LENGTH": str(content_length),
             }
             _form, files = parse_form_data(environ, self.rfile)
-            upload_content = files['upload'].file.read()
+            upload_content = files["upload"].file.read()
             self.send_response(301)
             self.end_headers()
-            self.write('<html><body>POST OK.<br/><br/>')
-            self.write('<b>file content is:</b><br/><code>')
-            self.write(upload_content.decode('utf-8'))
-            self.write('</code></body></html>')
+            self.write("<html><body>POST OK.<br/><br/>")
+            self.write("<b>file content is:</b><br/><code>")
+            self.write(upload_content.decode("utf-8"))
+            self.write("</code></body></html>")
         # pylint: disable=broad-except
         except Exception:
             self.send_error(http.HTTPStatus.INTERNAL_SERVER_ERROR)
@@ -177,7 +177,7 @@ class StoppableHttpServer(http.server.HTTPServer):
 
 
 def main():
-    host = 'localhost'
+    host = "localhost"
     port = 8001
     url = f"http://{host}:{port}"
     server = StoppableHttpServer((host, port), MyHandler)
@@ -185,7 +185,7 @@ def main():
     try:
         server.serve_forever()
     except KeyboardInterrupt:
-        print('CTRL+C received, shutting down server')
+        print("CTRL+C received, shutting down server")
         server.server_close()
 
 
