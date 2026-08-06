@@ -23,7 +23,10 @@ import os
 import time
 import http.server
 import mimetypes
-from multipart import parse_form_data
+try:
+    from multipart import parse_form_data  # type: ignore[attr-defined] # pylint: disable=no-name-in-module
+except ImportError:
+    from multipart import parse_form as parse_form_data  # type: ignore[assignment]
 import daemon
 
 

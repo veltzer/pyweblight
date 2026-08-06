@@ -16,5 +16,5 @@ pip = [
     "python-daemon",
     "pytconf",
     "pylogconf",
-    "multipart",
+    "python-multipart",
 ]
