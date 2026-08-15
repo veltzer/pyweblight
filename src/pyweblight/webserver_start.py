@@ -19,10 +19,11 @@ libraries.
 the fact that all my documents do not have ending in them.
 """
 
-import os
-import time
 import http.server
 import mimetypes
+import os
+import time
+
 try:
     from multipart import parse_form_data  # type: ignore[attr-defined] # pylint: disable=no-name-in-module
 except ImportError:
@@ -44,11 +45,7 @@ class MyHandler(StoppableHttpRequestHandler):
     def __init__(self, *args):
         # order is important here and base class is fucked up
         self.encoding = "utf8"
-        self.search_path = ":".join([
-            ".",
-            "/usr/share/javascript",
-            "/usr/share/javascript/jquery",
-        ])
+        self.search_path = ".:/usr/share/javascript:/usr/share/javascript/jquery"
         super().__init__(*args)
 
     def handle_static(self, resolved, mimetype):
@@ -134,7 +131,7 @@ class MyHandler(StoppableHttpRequestHandler):
         # pylint: disable=broad-except
         try:
             self.get()
-        except Exception:
+        except Exception:  # noqa: BLE001 - a request handler must not crash the server
             self.send_error(http.HTTPStatus.INTERNAL_SERVER_ERROR)
 
     def do_POST(self):
@@ -154,7 +151,7 @@ class MyHandler(StoppableHttpRequestHandler):
             self.write(upload_content.decode("utf-8"))
             self.write("</code></body></html>")
         # pylint: disable=broad-except
-        except Exception:
+        except Exception:  # noqa: BLE001 - a request handler must not crash the server
             self.send_error(http.HTTPStatus.INTERNAL_SERVER_ERROR)
 
     # pylint: disable=redefined-builtin
