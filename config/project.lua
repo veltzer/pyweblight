@@ -9,3 +9,4 @@ KEYWORDS = {
     "server",
     "web",
 }
+PYPI = true
