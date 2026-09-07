@@ -189,5 +189,8 @@ def main():
         server.server_close()
 
 
-with daemon.DaemonContext():
-    main()
+if __name__ == "__main__":
+    # Only daemonize when run as a script. Importing this module -- which
+    # sphinx autodoc, pytest and any consumer does -- must not start a server.
+    with daemon.DaemonContext():
+        main()
