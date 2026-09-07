@@ -105,6 +105,7 @@ dev = [
     "mypy",
     "pylint",
     "pytest",
-    "ruff",
     "python-multipart",
+    "ruff",
+    "sphinx",
 ]
