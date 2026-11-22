@@ -5,7 +5,7 @@
 
 description: Pyweblight is a small configurable web server for developers
 
-project website: https://veltzer.github.io/pyweblight
+project website: <https://veltzer.github.io/pyweblight>
 
 author: Mark Veltzer
 
