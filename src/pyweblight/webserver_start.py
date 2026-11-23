@@ -23,12 +23,10 @@ import http.server
 import mimetypes
 import os
 import time
+import typing
 
-try:
-    from multipart import parse_form_data  # type: ignore[attr-defined] # pylint: disable=no-name-in-module
-except ImportError:
-    from multipart import parse_form as parse_form_data  # type: ignore[assignment]
 import daemon
+from multipart import parse_form_data
 
 
 class StoppableHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
@@ -38,7 +36,8 @@ class StoppableHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
         """send 200 OK response, and set server.stop to True"""
         self.send_response(200)
         self.end_headers()
-        self.server.set_stop()
+        if isinstance(self.server, StoppableHttpServer):
+            self.server.set_stop()
 
 
 class MyHandler(StoppableHttpRequestHandler):
@@ -139,10 +138,11 @@ class MyHandler(StoppableHttpRequestHandler):
             content_length = int(self.headers.get("content-length", 0))
             environ = {
                 "REQUEST_METHOD": "POST",
-                "CONTENT_TYPE": self.headers.get("content-type"),
+                "CONTENT_TYPE": self.headers.get("content-type", ""),
                 "CONTENT_LENGTH": str(content_length),
+                "wsgi.input": self.rfile,
             }
-            _form, files = parse_form_data(environ, self.rfile)
+            _form, files = parse_form_data(environ)
             upload_content = files["upload"].file.read()
             self.send_response(301)
             self.end_headers()
@@ -155,6 +155,7 @@ class MyHandler(StoppableHttpRequestHandler):
             self.send_error(http.HTTPStatus.INTERNAL_SERVER_ERROR)
 
     # pylint: disable=redefined-builtin
+    @typing.override
     def log_message(self, format, *args):
         """
         override the log method and call the parent
@@ -169,6 +170,11 @@ class StoppableHttpServer(http.server.HTTPServer):
         super().__init__(*args, **kwargs)
         self.stop = False
 
+    def set_stop(self) -> None:
+        """ask serve_forever to return after the current request"""
+        self.stop = True
+
+    @typing.override
     def serve_forever(self, poll_interval=0.5):
         """Handle one request at a time until stopped."""
         self.stop = False
