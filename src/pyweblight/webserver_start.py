@@ -20,6 +20,7 @@ the fact that all my documents do not have ending in them.
 """
 
 import http.server
+import logging
 import mimetypes
 import os
 import time
@@ -127,10 +128,11 @@ class MyHandler(StoppableHttpRequestHandler):
     def do_GET(self):
         # this is the method called by the framework... any lower level error
         # should send internal error to the client...
-        # pylint: disable=broad-except
         try:
             self.get()
-        except Exception:  # noqa: BLE001 - a request handler must not crash the server
+        except Exception:
+            # a request handler must not crash the server: log and answer 500
+            logging.getLogger(__name__).exception("request failed")
             self.send_error(http.HTTPStatus.INTERNAL_SERVER_ERROR)
 
     def do_POST(self):
@@ -150,11 +152,11 @@ class MyHandler(StoppableHttpRequestHandler):
             self.write("<b>file content is:</b><br/><code>")
             self.write(upload_content.decode("utf-8"))
             self.write("</code></body></html>")
-        # pylint: disable=broad-except
-        except Exception:  # noqa: BLE001 - a request handler must not crash the server
+        except Exception:
+            # a request handler must not crash the server: log and answer 500
+            logging.getLogger(__name__).exception("request failed")
             self.send_error(http.HTTPStatus.INTERNAL_SERVER_ERROR)
 
-    # pylint: disable=redefined-builtin
     @typing.override
     def log_message(self, format, *args):
         """

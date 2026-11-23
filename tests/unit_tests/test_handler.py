@@ -23,17 +23,17 @@ class ToPathTests(unittest.TestCase):
     def test_root_becomes_dot(self):
         handler = _bare_handler()
         handler.path = "/"
-        self.assertEqual(handler.to_path(), ".")
+        assert handler.to_path() == "."
 
     def test_leading_slash_stripped(self):
         handler = _bare_handler()
         handler.path = "/index.html"
-        self.assertEqual(handler.to_path(), "index.html")
+        assert handler.to_path() == "index.html"
 
     def test_nested_path(self):
         handler = _bare_handler()
         handler.path = "/a/b/c.txt"
-        self.assertEqual(handler.to_path(), "a/b/c.txt")
+        assert handler.to_path() == "a/b/c.txt"
 
 
 class ResolveTests(unittest.TestCase):
@@ -43,13 +43,13 @@ class ResolveTests(unittest.TestCase):
                 pass
             handler = _bare_handler()
             handler.search_path = d
-            self.assertEqual(handler.resolve("found.txt"), os.path.join(d, "found.txt"))
+            assert handler.resolve("found.txt") == os.path.join(d, "found.txt")
 
     def test_missing_name_returns_none(self):
         with tempfile.TemporaryDirectory() as d:
             handler = _bare_handler()
             handler.search_path = d
-            self.assertIsNone(handler.resolve("absent.txt"))
+            assert handler.resolve("absent.txt") is None
 
     def test_searches_folders_in_order(self):
         with tempfile.TemporaryDirectory() as first, tempfile.TemporaryDirectory() as second:
@@ -57,7 +57,7 @@ class ResolveTests(unittest.TestCase):
                 pass
             handler = _bare_handler()
             handler.search_path = first + ":" + second
-            self.assertEqual(handler.resolve("only.txt"), os.path.join(second, "only.txt"))
+            assert handler.resolve("only.txt") == os.path.join(second, "only.txt")
 
 
 if __name__ == "__main__":
