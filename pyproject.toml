@@ -89,12 +89,12 @@ search-path = [
     "src",
     ".",
 ]
-# Third-party libraries without type information.
+
+# pyrefly's bundled stubs named "multipart" describe python-multipart, an
+# older package of the same import name. The one installed here is
+# multipart 2, which has parse_form_data.
 ignore-missing-imports = [
-    "daemon.*",
     "multipart.*",
-    "pylogconf.*",
-    "pytconf.*",
 ]
 
 [tool.pyrefly.errors]
