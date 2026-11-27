@@ -25,6 +25,7 @@ import mimetypes
 import os
 import time
 import typing
+from typing import override
 
 import daemon
 from multipart import parse_form_data
@@ -125,6 +126,7 @@ class MyHandler(StoppableHttpRequestHandler):
         # any other thing
         self.send_error(http.HTTPStatus.NOT_FOUND)
 
+    @override
     def do_GET(self):
         # this is the method called by the framework... any lower level error
         # should send internal error to the client...
