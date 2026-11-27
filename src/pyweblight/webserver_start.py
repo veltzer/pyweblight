@@ -162,7 +162,6 @@ class MyHandler(StoppableHttpRequestHandler):
         """
         override the log method and call the parent
         """
-        # return super().log_message(fmt, *args, **kwargs)
 
 
 class StoppableHttpServer(http.server.HTTPServer):
