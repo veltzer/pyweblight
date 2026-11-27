@@ -25,7 +25,7 @@ import mimetypes
 import os
 import time
 import typing
-from typing import override
+from typing import Any, override
 
 import daemon
 from multipart import parse_form_data
@@ -34,7 +34,7 @@ from multipart import parse_form_data
 class StoppableHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
     """http request handler with QUIT stopping the server"""
 
-    def do_QUIT(self):
+    def do_QUIT(self) -> None:
         """send 200 OK response, and set server.stop to True"""
         self.send_response(200)
         self.end_headers()
@@ -43,13 +43,13 @@ class StoppableHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
 
 
 class MyHandler(StoppableHttpRequestHandler):
-    def __init__(self, *args):
+    def __init__(self, *args: Any) -> None:
         # order is important here and base class is fucked up
         self.encoding = "utf8"
         self.search_path = ".:/usr/share/javascript:/usr/share/javascript/jquery"
         super().__init__(*args)
 
-    def handle_static(self, resolved, mimetype):
+    def handle_static(self, resolved: str, mimetype: tuple[str | None, str | None]) -> None:
         # note that this potentially makes every file on your computer
         # readable by the internet. A real web server also checks that
         # the file that it is serving is inside into service "realm".
@@ -63,17 +63,17 @@ class MyHandler(StoppableHttpRequestHandler):
             self.wfile.write(f.read())
             f.close()
 
-    def resolve(self, name):
+    def resolve(self, name: str) -> str | None:
         for folder in self.search_path.split(":"):
             to_consider = os.path.join(folder, name)
             if os.path.exists(to_consider):
                 return to_consider
         return None
 
-    def write(self, message):
+    def write(self, message: str) -> None:
         self.wfile.write(bytes(message, self.encoding))
 
-    def handle_esp(self):
+    def handle_esp(self) -> None:
         self.send_response(http.HTTPStatus.OK)
         self.send_header("Content-type", "text/html")
         self.end_headers()
@@ -81,7 +81,7 @@ class MyHandler(StoppableHttpRequestHandler):
         self.write("today is the " + str(time.localtime()[7]) + "<br/>")
         self.write("day in the year " + str(time.localtime()[0]) + "<br/>")
 
-    def to_path(self):
+    def to_path(self) -> str:
         # add a "." to path to make it a local file path
         # /->./
         # /index.html -> ./index.html
@@ -90,7 +90,7 @@ class MyHandler(StoppableHttpRequestHandler):
             r = "."
         return r
 
-    def handle_dir(self, real_path):
+    def handle_dir(self, real_path: str) -> None:
         self.send_response(http.HTTPStatus.OK)
         self.send_header("Content-type", "text/html")
         self.end_headers()
@@ -101,7 +101,7 @@ class MyHandler(StoppableHttpRequestHandler):
             self.write(message)
         self.write("</body></html>")
 
-    def get(self):
+    def get(self) -> None:
         # our dynamic content
         if self.path.endswith(".esp"):
             self.handle_esp()
@@ -127,7 +127,7 @@ class MyHandler(StoppableHttpRequestHandler):
         self.send_error(http.HTTPStatus.NOT_FOUND)
 
     @override
-    def do_GET(self):
+    def do_GET(self) -> None:
         # this is the method called by the framework... any lower level error
         # should send internal error to the client...
         try:
@@ -137,7 +137,7 @@ class MyHandler(StoppableHttpRequestHandler):
             logging.getLogger(__name__).exception("request failed")
             self.send_error(http.HTTPStatus.INTERNAL_SERVER_ERROR)
 
-    def do_POST(self):
+    def do_POST(self) -> None:
         try:
             content_length = int(self.headers.get("content-length", 0))
             environ = {
@@ -160,7 +160,7 @@ class MyHandler(StoppableHttpRequestHandler):
             self.send_error(http.HTTPStatus.INTERNAL_SERVER_ERROR)
 
     @typing.override
-    def log_message(self, format, *args):
+    def log_message(self, format: str, *args: object) -> None:
         """
         override the log method and call the parent
         """
@@ -169,7 +169,7 @@ class MyHandler(StoppableHttpRequestHandler):
 class StoppableHttpServer(http.server.HTTPServer):
     """http server that reacts to self.stop flag"""
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         self.stop = False
 
@@ -178,14 +178,14 @@ class StoppableHttpServer(http.server.HTTPServer):
         self.stop = True
 
     @typing.override
-    def serve_forever(self, poll_interval=0.5):
+    def serve_forever(self, poll_interval: float = 0.5) -> None:
         """Handle one request at a time until stopped."""
         self.stop = False
         while not self.stop:
             self.handle_request()
 
 
-def main():
+def main() -> None:
     host = "localhost"
     port = 8001
     url = f"http://{host}:{port}"

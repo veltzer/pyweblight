@@ -20,24 +20,24 @@ def _bare_handler() -> webserver_start.MyHandler:
 
 
 class ToPathTests(unittest.TestCase):
-    def test_root_becomes_dot(self):
+    def test_root_becomes_dot(self) -> None:
         handler = _bare_handler()
         handler.path = "/"
         assert handler.to_path() == "."
 
-    def test_leading_slash_stripped(self):
+    def test_leading_slash_stripped(self) -> None:
         handler = _bare_handler()
         handler.path = "/index.html"
         assert handler.to_path() == "index.html"
 
-    def test_nested_path(self):
+    def test_nested_path(self) -> None:
         handler = _bare_handler()
         handler.path = "/a/b/c.txt"
         assert handler.to_path() == "a/b/c.txt"
 
 
 class ResolveTests(unittest.TestCase):
-    def test_finds_file_in_first_matching_folder(self):
+    def test_finds_file_in_first_matching_folder(self) -> None:
         with tempfile.TemporaryDirectory() as d:
             with open(os.path.join(d, "found.txt"), "w", encoding="utf-8"):
                 pass
@@ -45,13 +45,13 @@ class ResolveTests(unittest.TestCase):
             handler.search_path = d
             assert handler.resolve("found.txt") == os.path.join(d, "found.txt")
 
-    def test_missing_name_returns_none(self):
+    def test_missing_name_returns_none(self) -> None:
         with tempfile.TemporaryDirectory() as d:
             handler = _bare_handler()
             handler.search_path = d
             assert handler.resolve("absent.txt") is None
 
-    def test_searches_folders_in_order(self):
+    def test_searches_folders_in_order(self) -> None:
         with tempfile.TemporaryDirectory() as first, tempfile.TemporaryDirectory() as second:
             with open(os.path.join(second, "only.txt"), "w", encoding="utf-8"):
                 pass

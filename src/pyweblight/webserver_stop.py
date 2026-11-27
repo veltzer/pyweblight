@@ -9,7 +9,7 @@ import http.client
 port = 8001
 
 
-def main():
+def main() -> None:
     conn = http.client.HTTPConnection(f"localhost:{port}")
     conn.request("QUIT", "/")
     print(conn.getresponse())
